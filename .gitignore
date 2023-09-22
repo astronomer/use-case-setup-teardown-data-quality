@@ -4,3 +4,6 @@
 airflow_settings.yaml
 __pycache__/
 astro
+/include/postgres
+/include/results.png
+.DS_Store
