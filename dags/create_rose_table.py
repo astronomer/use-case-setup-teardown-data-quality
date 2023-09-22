@@ -85,7 +85,7 @@ def create_rose_table():
                 table=f"{SCHEMA_NAME}.{TABLE_NAME}_tmp",
                 checks={
                     "row_count_check": {"check_statement": "COUNT(*) > 500"},
-                    "spectral_class_check": {
+                    "rose_type_check": {
                         "check_statement": "rose_type IN ('damask', 'tea', 'moss')"
                     },
                 },

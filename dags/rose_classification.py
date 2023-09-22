@@ -1,3 +1,12 @@
+"""
+## Use the Astro Python SDK to ingest a relational table and classify roses
+
+This DAG uses the @aql.dataframe decorator to ingest a relational table from Postgres as a
+pandas DataFrame in a simple feature engineering, train, plot pattern.
+See https://github.com/astronomer/use-case-setup-teardown-data-quality for the 
+full example repo including the dataset.
+"""
+
 from airflow import Dataset
 from airflow.decorators import dag, task
 from airflow.models.baseoperator import chain
@@ -66,7 +75,7 @@ def train_model(input_data):
     X_test = test_data.drop(["rose_type"], axis=1)
     y_test = test_data["rose_type"]
 
-    clf = RandomForestClassifier()
+    clf = RandomForestClassifier(n_estimators=1000, random_state=23)
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
 
@@ -120,9 +129,6 @@ def plot_results(input):
     labels = labels_df.iloc[:, 0].to_list()
     cm = confusion_matrix(y_test, y_pred, labels=labels)
 
-    print(labels)
-    print(cm)
-
     sns.heatmap(
         cm,
         annot=True,
@@ -152,12 +158,12 @@ def plot_results(input):
     ax[1].set_title("ROC")
     ax[1].legend(loc="lower left", bbox_to_anchor=(0.10, 0.01))
 
-    img = plt.imread("include/red_rose.png")
+    img = plt.imread("include/rosa_centifolia.png")
     ax_ratio = ax[1].get_data_ratio()
     img_ratio = img.shape[1] / img.shape[0]
     width = 0.2
-    height = width *1.3 / (img_ratio * ax_ratio)
-    x_start = 0.8
+    height = width * 1.3 / (img_ratio * ax_ratio)
+    x_start = 0.78
     y_start = 0
     extent = [x_start, x_start + width, y_start, y_start + height]
     ax[1].imshow(img, aspect="auto", extent=extent, zorder=1)
@@ -184,6 +190,8 @@ def rose_classification():
     )
 
     plot_results(train_model(roses_features))
+
+    aql.cleanup()
 
 
 rose_classification()
