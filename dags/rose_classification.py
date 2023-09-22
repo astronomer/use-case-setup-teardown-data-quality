@@ -137,7 +137,6 @@ def plot_results(input):
     ax[0].set_title("Confusion Matrix")
 
     roc_auc = auc(fpr, tpr)
-    # Include accuracy and F1 score in the label
     label_text = (
         f"ROC curve (area = {roc_auc:.2f})"
         f"\nAccuracy = {acc:.2f}"

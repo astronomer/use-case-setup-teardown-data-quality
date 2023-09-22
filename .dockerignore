@@ -3,6 +3,3 @@ astro
 .env
 airflow_settings.yaml
 logs/
-/include/postgres
-/include/results.png
-.DS_Store

@@ -26,7 +26,7 @@ CSV_PATH = "/include/roses_raw.csv"
 
 @dag(
     start_date=datetime(2023, 8, 1),
-    schedule=None,
+    schedule="@daily",
     catchup=False,
     tags=["setup/teardown", "data quality"],
     default_args={"postgres_conn_id": POSTGRES_CONN_ID, "conn_id": POSTGRES_CONN_ID},
