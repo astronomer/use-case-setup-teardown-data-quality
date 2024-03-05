@@ -15,14 +15,22 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   scheduler:
+    networks:
+      - airflow
     extra_hosts:
       - "host.docker.internal:host-gateway"  
   webserver:
+    networks:
+      - airflow
     extra_hosts:
       - "host.docker.internal:host-gateway"
   triggerer:
+    networks:
+      - airflow
     extra_hosts:
       - "host.docker.internal:host-gateway"
   postgres:
+    networks:
+      - airflow
     extra_hosts:
       - "host.docker.internal:host-gateway"  
